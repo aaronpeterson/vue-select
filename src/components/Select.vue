@@ -120,8 +120,6 @@
     left: 0;
     z-index: 1000;
     min-width: 160px;
-    padding: 5px 0;
-    margin: 0;
     width: 100%;
     overflow-y: scroll;
     border: 1px solid rgba(0, 0, 0, .26);
@@ -129,11 +127,20 @@
     border-top: none;
     border-radius: 0 0 4px 4px;
     text-align: left;
-    list-style: none;
     background: #fff;
+  }
+
+  .v-select ul {
+    list-style: none;
+    padding: 0;
+    margin: 0;
   }
   .v-select .no-options {
     text-align: center;
+  }
+  .v-select .footer {
+    background-color: #eeeeee;
+    padding: 12px 3px;
   }
   /* Selected Tags */
   .v-select .selected-tag {
@@ -219,7 +226,7 @@
   }
   .v-select li > a {
     display: block;
-    padding: 3px 20px;
+    padding: 3px 12px;
     clear: both;
     color: #333; /* Overrides most CSS frameworks */
     white-space: nowrap;
@@ -231,7 +238,7 @@
     color: #333;
     background: rgba(50, 50, 50, .1);
   }
-  .v-select .dropdown-menu > .highlight > a {
+  .v-select .dropdown-menu > ul > .highlight > a {
     /*
      * required to override bootstrap 3's
      * .dropdown-menu > li > a:hover {} styles
@@ -365,19 +372,21 @@
     </div>
 
     <transition :name="transition">
-      <ul ref="dropdownMenu" v-if="dropdownOpen" class="dropdown-menu" :style="{ 'max-height': maxHeight }">
-        <li v-for="(option, index) in filteredOptions" v-bind:key="index" :class="{ active: isOptionSelected(option), highlight: index === typeAheadPointer }" @mouseover="typeAheadPointer = index">
-          <a @mousedown.prevent="select(option)">
-          <slot name="option" v-bind="(typeof option === 'object')?option:{[label]: option}">
-            {{ getOptionLabel(option) }}
-          </slot>
-          </a>
-        </li>
-        <li v-if="!filteredOptions.length" class="no-options">
-          <slot name="no-options">Sorry, no matching options.</slot>
-        </li>
-	<slot name="create"></slot>
-      </ul>
+      <div ref="dropdownMenu" v-if="dropdownOpen" class="dropdown-menu" :style="{ 'max-height': maxHeight }">
+        <ul>
+          <li v-for="(option, index) in filteredOptions" v-bind:key="index" :class="{ active: isOptionSelected(option), highlight: index === typeAheadPointer }" @mouseover="typeAheadPointer = index">
+            <a @mousedown.prevent="select(option)">
+            <slot name="option" v-bind="(typeof option === 'object')?option:{[label]: option}">
+              {{ getOptionLabel(option) }}
+            </slot>
+            </a>
+          </li>
+          <li v-if="!filteredOptions.length" class="no-options">
+            <slot name="no-options">Sorry, no matching options.</slot>
+          </li>
+        </ul>
+        <slot name="footer"></slot>
+      </div>
     </transition>
   </div>
 </template>

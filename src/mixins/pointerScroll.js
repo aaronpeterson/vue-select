@@ -34,6 +34,9 @@ module.exports = {
       let pixelsToPointerTop = 0
       if( this.$refs.dropdownMenu ) {
         for (let i = 0; i < this.typeAheadPointer; i++) {
+          if (!this.$refs.dropdownMenu || !this.$refs.dropdownMenu.children[i])
+            continue;
+
           pixelsToPointerTop += this.$refs.dropdownMenu.children[i].offsetHeight
         }
       }
@@ -54,7 +57,11 @@ module.exports = {
      * @returns {number}
      */
     pointerHeight() {
-      let element = this.$refs.dropdownMenu ? this.$refs.dropdownMenu.children[this.typeAheadPointer] : false
+        let element
+
+        if (this.$refs.dropdownMenu)
+          element = this.$refs.dropdownMenu ? this.$refs.dropdownMenu.children[this.typeAheadPointer] : false
+
       return element ? element.offsetHeight : 0
     },
 
