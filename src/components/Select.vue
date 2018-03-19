@@ -376,8 +376,8 @@
         <li v-if="!filteredOptions.length" class="no-options">
           <slot name="no-options">Sorry, no matching options.</slot>
         </li>
+	<slot name="create"></slot>
       </ul>
-      <slot name="create"></slot>
     </transition>
   </div>
 </template>
