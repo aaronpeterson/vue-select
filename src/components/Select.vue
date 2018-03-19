@@ -377,6 +377,7 @@
           <slot name="no-options">Sorry, no matching options.</slot>
         </li>
       </ul>
+      <slot name="create"></slot>
     </transition>
   </div>
 </template>
